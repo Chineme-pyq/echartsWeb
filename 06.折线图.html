@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/echarts.min.js"></script>
+</head>
+
+<body>
+    <div style="width:600px; height:400px;"></div>
+    <script>
+        var myCharts = echarts.init(document.querySelector('div'))
+        var xData = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+            // var yData = [3000, 2800, 900, 400, 2999, 6777, 899, 834, 8799, 32222, 1232, 2312]
+        var yData = [3001, 3002, 3003, 3000, 3010, 3002, 3007, 3008, 3009, 3006, 3011, 3014]
+        var yData2 = [3000, 2800, 900, 400, 2999, 6777, 899, 834, 8799, 32222, 1232, 2312]
+        var option = {
+            xAxis: {
+                type: 'category',
+                data: xData,
+                //设置第一个类目轴紧挨边缘
+                boundaryGap: false
+            },
+            yAxis: {
+                type: 'value',
+                //scale 脱离0值比例 不再从0开始 （当y轴差别很小的时候）
+                scale: true
+            },
+            series: [{
+                name: '康师傅',
+                data: yData,
+                type: 'line',
+                markPoint: {
+                    data: [{
+                        type: 'max'
+                    }, {
+                        type: 'min'
+                    }]
+                },
+                //平均值
+                markLine: {
+                    data: [{
+                        type: 'average'
+                    }]
+                },
+                //标记区间
+                markArea: {
+                    data: [
+                        //区间
+                        [{
+                            xAxis: '1月'
+                        }, {
+                            xAxis: '2月'
+                        }],
+                        [{
+                            xAxis: '7月'
+                        }, {
+                            xAxis: '8月'
+                        }]
+                    ]
+                },
+                //线条控制：平滑 
+                smooth: true,
+                //风格
+                lineStyle: {
+                    color: 'green',
+                    type: 'dashed' //dotted 点线 solid
+                },
+                //区域填充
+                areaStyle: {
+                    color: 'pink'
+                },
+                stack: 'all',
+                areaStyle: {}
+
+            }, {
+                type: 'line',
+                data: yData2,
+                //堆叠图 在第一个对象基础之上增加统一stack
+                stack: 'all',
+                areaStyle: {}
+            }]
+        }
+        myCharts.setOption(option)
+    </script>
+</body>
+
+</html>

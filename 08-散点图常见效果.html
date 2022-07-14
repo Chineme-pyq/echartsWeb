@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/echarts.min.js"></script>
+    <script src="lib/jquery.min.js"></script>
+</head>
+
+<body>
+    <div style="height:400px; width:600px"></div>
+    <script>
+        var myCharts = echarts.init(document.querySelector('div'))
+            //打开loading
+        myCharts.showLoading()
+        $.get('data/test_data.json', function(ret) {
+                //获取数据成功之后关闭loading
+                myCharts.hideLoading()
+                var axisData = []
+                for (var i = 0; i < ret.length; i++) {
+                    var height = ret[i].height
+                    var weight = ret[i].weight
+                    var newArr = [height, weight]
+                    axisData.push(newArr)
+                }
+                var option = {
+                    xAxis: {
+                        type: 'value',
+                        scale: true
+                    },
+                    yAxis: {
+                        type: 'value',
+                        scale: true
+                    },
+                    series: [{
+                        //涟漪动画
+                        type: 'effectScatter',
+                        showEffectOn: 'emphasis', //render自动产生涟漪动画  emphasis鼠标滑过才会产生动画
+                        rippleEffect: {
+                            scale: 5
+                        },
+                        data: axisData,
+                        //散点大小不同
+                        symbolSize: function(arg) {
+                            var height = arg[0] / 100
+                            var weight = arg[1]
+                                //BMI计算
+                            var bmi = weight / (height * height) //大于28就代表肥胖
+                            if (bmi > 28) {
+                                return 20
+                            }
+                            return 5
+                        },
+                        //散点颜色不同
+                        itemStyle: {
+                            color: function(arg) {
+                                var height = arg.data[0] / 100
+                                var weight = arg.data[1]
+                                    //BMI计算
+                                var bmi = weight / (height * height) //大于28就代表肥胖
+                                if (bmi > 28) {
+                                    return 'red'
+                                }
+                                return 'green'
+                            }
+                        }
+                    }]
+                }
+                myCharts.setOption(option)
+            })
+            //var data =
+            // var axisData = []
+            // for (var i = 0; i < data.length; i++) {
+            //     var height = data[i].height
+            //     var weight = data[i].weight
+            //     var newArr = [height, weight]
+            //     axisData.push(newArr)
+            // }
+    </script>
+</body>
+
+</html>

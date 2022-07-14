@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 1.引入echarts.js的文件  -->
+    <script src="lib/echarts.min.js"></script>
+
+</head>
+
+<body>
+    <div style="width: 600px;height:400px"></div>
+    <script>
+        // 3. 初始化echarts实例对象
+        //参数， dom 决定图表最终呈现的位置
+        var mCharts = echarts.init(document.querySelector('div'))
+            // 4.准备配置项  
+        var option = {
+                dataZoom: [{
+                    // type: 'inside' //内置 依靠鼠标滚轮或者双指缩放
+                    type: 'slider', //滑块可以导致缩放
+                    xAxisIndex: 0 //指示第几个x轴、y轴
+                }, {
+                    type: 'slider',
+                    yAxisIndex: 0,
+                    start: 0,
+                    end: 80
+                }],
+                title: {
+                    text: '成绩展示',
+                    textStyle: {
+                        color: 'red'
+                    },
+                    borderWidth: 5,
+                    borderColor: 'blue',
+                    borderRadius: 5,
+                    left: 50
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['小米', '小红', '小王']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    name: '语文',
+                    type: 'bar',
+                    data: [70, 92, 87]
+                }]
+            }
+            // 5. 将配置项设置给echarts实例对象
+        mCharts.setOption(option)
+    </script>
+</body>
+
+</html>

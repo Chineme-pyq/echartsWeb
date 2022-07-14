@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/echarts.min.js"></script>
+</head>
+
+<body>
+    <div style="height:400px;width:600px"></div>
+    <script>
+        var mCharts = echarts.init(document.querySelector('div'))
+        var xDataArr = ['张三', '李四', '王五', '闰土', '二点', 'ew', '3e', '打圈']
+        var yDataArr = [88, 92, 63, 77, 94, 80, 72, 86]
+        var option = {
+            animation: true, //控制动画是否开启
+            // animationDuration: 7000,//动画时长  以毫秒为单位
+            animationThreshold: 12, //单种形式的元素数量大于这个阈值时会关闭动画
+            animationDuration: function(arg) {
+                return 2000 * arg //arg 代表每个柱的索引
+            },
+            animationEasing: 'bounceOut', //缓动动画
+            xAxis: {
+
+                type: 'category',
+                data: xDataArr
+            },
+            yAxis: {
+                type: 'value',
+            },
+            series: [{
+                name: '语文',
+                type: 'bar',
+                markPoint: {
+                    data: [{
+                        type: 'max',
+                        name: '最大值'
+                    }, {
+                        type: 'min',
+                        name: '最小值'
+                    }]
+                },
+                markLine: {
+                    data: [{
+                        type: 'average',
+                        name: '平均值'
+                    }]
+                },
+                label: {
+                    show: true,
+                    rotate: 60,
+                    position: 'top'
+                },
+                barWidth: '30%',
+                data: yDataArr
+            }]
+        }
+        mCharts.setOption(option)
+    </script>
+</body>
+
+</html>

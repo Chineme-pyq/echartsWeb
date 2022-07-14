@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/echarts.min.js"></script>
+    <script src="lib/jquery.min.js"></script>
+</head>
+
+<body>
+    <div style="width:600px;height:400px"></div>
+    <script>
+        //1.ECharts最基本的代码结构
+        //2.准备中国地图的矢量数据
+        //3.使用Ajax获取矢量地图数据
+        //4.在Ajax的回调函数中注册地图矢量数据echarts.registerMap('chinaMap','矢量地图数据')
+        //5.配置geo的type为'map',map为'chinaMap'
+        var myCharts = echarts.init(document.querySelector("div"))
+        $.get('json/map/china.json', function(ret) {
+            //ret就是中国各个省份的矢量地图数据
+            //console.log(ret)
+            echarts.registerMap('chinaMap', ret)
+            var option = {
+                geo: {
+                    type: 'map',
+                    map: 'chinaMap', //需要和registerMap的第一个参数保持一致
+                    roam: true, //设置拖动和缩放
+                    //名称显示
+                    label: {
+                        show: true
+                    },
+                    zoom: 1, //设置初始化缩放比例
+                    center: [83.6, 43.9] //设置地图中心点的坐标
+                },
+                //不同城市颜色不同
+                series: {
+
+                }
+            }
+            myCharts.setOption(option)
+        })
+    </script>
+</body>
+
+</html>
